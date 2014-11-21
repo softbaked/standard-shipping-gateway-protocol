@@ -4,7 +4,7 @@ This document specifies the Standard Shipping Gateway Protocol which defines com
 
 Status
 ------
-This document is in initial development and the specification should not be considered stable. The version number is 0.1.0.
+This document is in initial development and the specification should not be considered stable. The version number is 0.1.0 as per [semver](http://semver.org).
 
 Licensing
 ---------
@@ -12,7 +12,7 @@ The specifications here may be adopted by any party interested in ease of integr
 
 Introduction
 ------------
-The rapidly growing ecommerce ecosystem has given birth to numerous platforms and services with complementary functions. While it is in most party's best interest to integrate with as many other providers as possible, the technical cost of each integration can be forbidding for small companies.
+The rapidly growing ecommerce ecosystem has given birth to numerous platforms and services with complementary functions. While it is in most parties' best interest to integrate with as many other providers as possible, the technical cost of each integration can be forbidding for small companies.
 
 In the interest of promoting cooperation and integration between these small providers, we propose Standard Shipping Gateway Protocol, a set of technical specifications which define how online sales platforms may communicate to shipping gateways and vice versa to create and track shipments. These specifications take into account how most commercial sales platforms and shipping gateways already operate. Properly implemented, they should allow for one-click interoperatability without having to tailor your software specifically for any vendor.
 

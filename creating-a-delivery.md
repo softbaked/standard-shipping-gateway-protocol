@@ -1,9 +1,9 @@
 Creating a Delivery
 ===================
-A delivery is defined as the shipping of goods from one point of origin to one customer. In rare cases, it also includes the return trip if customer returns or rejects the goods.
+A delivery is defined as the shipping of goods by the shipping gateway, from the point of origin to a single customer. In rare cases, it also includes the return trip if customer returns or rejects the goods.
 
-Types of Deliveries
--------------------
+Types of Shipping Gateways
+--------------------------
 
                 | Goods stored at | Delivery initiated by     | Tracking number
 ----------------|-----------------|---------------------------|-------------------------------
@@ -17,6 +17,10 @@ A **pickup** service provider receives an incoming delivery order and dispatches
 
 A **shipment** provider is the only type of provider whose workflow can be completed entirely offline. After merchant drops off the goods at their designated stations, they generate a tracking number which merchant can use to track the progress. For a sales platform to be notified of tracking updates, they need to explicitly register the desired tracking number with the provider.
 
+When the distinction between these types of providers are not important, they are referred to as the **shipping gateway**.
+
 Protocol
 --------
+To create a delivery, the **sales platform** issues a HTTP POST command to the **shipping gateway**'s HTTP server, at the agreed upon endpoint that is unique to each merchant.
+
 TBC
