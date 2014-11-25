@@ -16,7 +16,7 @@ The rapidly growing ecommerce ecosystem has given birth to numerous platforms an
 
 In the interest of promoting cooperation and integration between these small providers, we propose Standard Shipping Gateway Protocol, a set of technical specifications which define how online sales platforms may communicate to shipping gateways and vice versa to create and track shipments. These specifications take into account how most commercial sales platforms and shipping gateways already operate. Properly implemented, they should allow for one-click interoperatability without having to tailor your software specifically for any vendor.
 
-The protocol is built on HTTP and generally tries to be RESTful where possible.
+This protocol is built on HTTP and adheres to the REST principle. The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 If you would like to contribute to the development, please open an issue or a pull request on GitHub.
 
