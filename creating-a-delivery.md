@@ -23,12 +23,22 @@ Protocol
 --------
 To create a delivery, the *sales platform* issues a HTTPS POST command to the *shipping gateway*'s HTTPS server, at the agreed upon endpoint that is unique to each merchant. Note that this implies that the merchant has to be registered in both services.
 
-The following HTTPS POST parameters must be provided, using any valid means of embedding parameters (`x-www-form-urlencoded`, `multipart/form-data`, etc.):
+The following HTTPS POST parameters MUST be submitted via `x-www-form-urlencoded`:
 
-- **`order_id`** (REQUIRED): a string that uniquely identifies the order that causes the shipment to exist in the first place. The shipping gateway MUST NOT assume a 1:1 relationship between an order and a shipment, nor assume that any of the shipping parameters such as recipient address and item list will be consistent across different shipments sharing the same `order_id`.
-- **`customer[name]`** (REQUIRED): a one-line string bearing the title of the shipment's recipient.
-- **`customer[address]`** (REQUIRED): a multi-line text of a valid postal address at which the shipment is meant to be delivered. Country MAY be omitted if the address is inside the *shipping gateway*'s base country. Future versions of the specification MAY require semantically formatted addresses. Delivery directions SHOULD NOT be included here but instead in the `note` field.
-- **`customer[phone]`** (RECOMMENDED): a valid phone number where the recipient may be reached to confirm or authorize a delivery. Country code SHOULD be omitted unless the recipient is outside of the *shipping gateway*'s base country. The semantical correctness of this field is not validated, and occasionally it may include instructions or extension codes in non-machine-readable format.
-- **`callback`** (RECOMMENDED): a valid HTTPS endpoint where the *sales platform* expects to be notified about updates on this delivery. More information about this under [Tracking a delivery](tracking-a-delivery).
+- `order_id` REQUIRED: a string that uniquely identifies the order that causes the shipment to exist in the first place. The shipping gateway MUST NOT assume a 1:1 relationship between an order and a shipment, nor assume that any of the shipping parameters such as recipient address and item list will be consistent across different shipments sharing the same `order_id`.
+- `customer[name]` REQUIRED: a one-line string bearing the title of the shipment's recipient.
+- `customer[address]` REQUIRED: a multi-line text of a valid postal address at which the shipment is meant to be delivered. Country MAY be omitted if the address is inside the *shipping gateway*'s base country. Future versions of the specification MAY require semantically formatted addresses. Delivery directions SHOULD NOT be included here but instead in the `note` field.
+- `customer[phone]` RECOMMENDED: a valid phone number where the recipient may be reached to confirm or authorize a delivery. Country code SHOULD be omitted unless the recipient is outside of the *shipping gateway*'s base country. The semantical correctness of this field is not validated, and occasionally it may include instructions or extension codes in non-machine-readable format.
+- `tracking_code` REQUIRED for *shipment providers*, ignored for all other *shipping gateway* types: the tracking code tied to the dropped off shipment for tracking purpose.
+- The following parameters are repeated for each unique item in the shipment; substitute i for zero-based integer index:
+-- `items[i][name]` REQUIRED for *fulfillment** and **pickup service providers**: human-readable name for the item.
+-- `items[i][sku]` REQUIRED for *fulfillment**: a unique identifier for the item that the fulfillment service understands.
+-- `items[i][quantity]` REQUIRED for *fulfillment** and **pickup service providers**: positive integer amount of the item.
+-- `items[i][price]` OPTIONAL: price to include in the packing slip.
+- `callback` RECOMMENDED: a valid HTTPS endpoint where the *sales platform* expects to be notified about updates on this delivery. If this field is omitted, the *shipping gateway* will not push out updates. More information about this under [Tracking a delivery](tracking-a-delivery).
 
-All parameters MUST be encoded in UTF-8 and subsequently encoded as required by HTTP, e.g. urlencoded.
+All parameters submitted MUST be text-encoded in UTF-8.
+
+Additionally, the HTTP *header* MUST include the following parameter:
+
+- `X-Signature` REQUIRED: a cryptographic signature for the query string parameters when encoded with `x-www-form-urlencoded`, signed with [HMAC-SHA256](http://en.wikipedia.org/wiki/Hash-based_message_authentication_code) with the shared key agreed upon in advance by the *sales platform* and the *shipping gateway*, and encoded in Base64.
