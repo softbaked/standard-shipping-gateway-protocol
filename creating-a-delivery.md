@@ -31,12 +31,12 @@ The following HTTPS POST parameters MUST be submitted via `x-www-form-urlencoded
 - `customer[phone]` RECOMMENDED: a valid phone number where the recipient may be reached to confirm or authorize a delivery. Country code SHOULD be omitted unless the recipient is outside of the *shipping gateway*'s base country. The semantical correctness of this field is not validated, and occasionally it may include instructions or extension codes in non-machine-readable format.
 - `tracking_code` REQUIRED for *shipment providers*, ignored for all other *shipping gateway* types: the tracking code tied to the dropped off shipment for tracking purpose.
 - The following parameters are repeated for each unique item in the shipment; substitute i for zero-based integer index. They are REQUIRED for *fulfillment service providers*, and OPTIONAL for all other providers.
--- `items[i][name]` REQUIRED: human-readable name for the item.
--- `items[i][sku]` REQUIRED: a unique identifier for the item that the fulfillment service understands.
--- `items[i][quantity]` REQUIRED: positive integer amount of the item.
--- `items[i][price]` OPTIONAL: a numeric *unit* price for this item.
--- `items[i][weight]` OPTIONAL: a numeric *unit* weight for this item.
--- `items[i][photo]` OPTIONAL: a valid URL for an accompanying photo.
+  - `items[i][name]` REQUIRED: human-readable name for the item.
+  - `items[i][sku]` REQUIRED: a unique identifier for the item that the fulfillment service understands.
+  - `items[i][quantity]` REQUIRED: positive integer amount of the item.
+  - `items[i][price]` OPTIONAL: a numeric *unit* price for this item.
+  - `items[i][weight]` OPTIONAL: a numeric *unit* weight for this item.
+  - `items[i][photo]` OPTIONAL: a valid URL for an accompanying photo.
 - `note` OPTIONAL: multi-line remarks or instructions text.
 - `callback` RECOMMENDED: a valid HTTPS endpoint where the *sales platform* expects to be notified about updates on this delivery. If this field is omitted, the *shipping gateway* will not push out updates. More information about this under [Tracking a delivery](tracking-a-delivery).
 
@@ -48,7 +48,7 @@ Additionally, the HTTP *header* MUST include the following parameter:
 
 Successful Response
 -------------------
-The *shipping gateway* server responds with a HTTP 200 code, with a JSON message in the payload. The following top-level keys are defined:
+The *shipping gateway* server MUST respond with a HTTP 200 code, with a JSON message in the payload. The following top-level keys are defined:
 
 - `status` REQUIRED: a human-readable one-line summary of the current shipment status.
 - `description` REQUIRED: a human-readable multi-line explanation of the status.
@@ -59,7 +59,7 @@ More vendor-specific parameters not on this list MAY be included provided they d
 
 Failed Response
 ---------------
-The *shipping gateway* server responds with a HTTP 4xx or 5xx code, with a JSON message in the payload. The following top-level keys are defined:
+The *shipping gateway* server MUST respond with a HTTP 4xx or 5xx code, with a JSON message in the payload. The following top-level keys are defined:
 
 - `status` REQUIRED: a human-readable one-line error message.
 - `description` REQUIRED: a human-readable multi-line explanation why the delivery creation failed.
